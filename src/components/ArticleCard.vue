@@ -5,6 +5,17 @@ const props = defineProps({
     required: true,
   },
 })
+
+const getBackgroundColors = (category) => {
+  const categoriesColors = {
+    sciences: ['#be80ff', '#6325ff'],
+    sante: ['#ff6b9f', '#ff4e52'],
+    planete: ['#9fcb5c', '#069849'],
+    maison: ['#fa9761', '#ff5957'],
+    tech: ['#49adfa', '#2a3df7'],
+  }
+  return categoriesColors[category] || ['#000', '#000']
+}
 </script>
 
 <template>
@@ -13,7 +24,14 @@ const props = defineProps({
       <img :src="article.image" :alt="article.title" />
       <div class="info">
         <div class="categories">
-          <span>{{ article.category.toUpperCase() }}</span>
+          <span
+            :style="{
+              background: `linear-gradient(to right, ${getBackgroundColors(article.category)})`,
+              '-webkit-background-clip': 'text',
+              '-webkit-text-fill-color': 'transparent',
+            }"
+            >{{ article.category.toUpperCase() }}</span
+          >
           <span> {{ article.subCategory.toUpperCase() }}</span>
         </div>
         <h3>{{ article.title }}</h3>
@@ -53,10 +71,6 @@ img {
 .categories span:first-child {
   margin-right: 10px;
   font-weight: bold;
-  background: linear-gradient(to right, #be80ff, #6325ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 h3 {
